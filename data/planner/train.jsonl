@@ -1,0 +1,1 @@
+{"id":"plan_001","goal":"Summarize the paper in simple terms.","state":"Paper text is available as plain text.","tools":["extract_text","summarize"],"output_json":{"type":"plan","steps":[{"action":"extract_text","args":{"source":"paper_text"}},{"action":"summarize","args":{"length":"short","level":"simple"}}]}}

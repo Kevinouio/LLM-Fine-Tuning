@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PlannerOutput",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": ["type", "steps"],
+      "properties": {
+        "type": {"const": "plan"},
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["action"],
+            "properties": {
+              "action": {"type": "string"},
+              "args": {"type": "object"}
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": ["type", "question"],
+      "properties": {
+        "type": {"const": "clarify"},
+        "question": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  ]
+}

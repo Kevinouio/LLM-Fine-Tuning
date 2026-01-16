@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PaperDigest",
+  "type": "object",
+  "required": [
+    "paper_type",
+    "title",
+    "abstract",
+    "contributions",
+    "limitations",
+    "summary_simple"
+  ],
+  "properties": {
+    "paper_type": {
+      "type": "string",
+      "enum": ["theoretical", "empirical", "survey", "system", "other"]
+    },
+    "title": {"type": "string"},
+    "abstract": {"type": "string"},
+    "contributions": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "limitations": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "summary_simple": {"type": "string"},
+    "methods": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "datasets": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "results": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["quote"],
+        "properties": {
+          "quote": {"type": "string"},
+          "location": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

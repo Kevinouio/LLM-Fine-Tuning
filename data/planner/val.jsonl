@@ -1,0 +1,1 @@
+{"id":"clarify_001","goal":"Book a flight.","state":"No departure or destination provided.","tools":["search_flights","book_flight"],"output_json":{"type":"clarify","question":"What is your departure city and destination?"}}

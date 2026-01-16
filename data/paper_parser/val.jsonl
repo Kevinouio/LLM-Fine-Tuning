@@ -1,0 +1,2 @@
+{"id":"paper_002","input_text":"Title: Survey of Widgets
+Abstract: We review widget methods.","output_json":{"paper_type":"survey","title":"Survey of Widgets","abstract":"We review widget methods.","contributions":["We summarize prior work."],"limitations":["No new experiments."],"summary_simple":"This paper reviews existing widget methods.","methods":[],"datasets":[],"results":[]}}

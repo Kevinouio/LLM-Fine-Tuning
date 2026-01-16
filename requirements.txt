@@ -1,0 +1,13 @@
+torch
+transformers
+peft
+datasets
+accelerate
+bitsandbytes
+sentencepiece
+protobuf
+fastapi
+uvicorn
+pydantic
+jsonschema
+numpy

@@ -1,0 +1,1 @@
+{"id":"plan_002","goal":"Create a 3-step project plan.","state":"Goal is clear and no constraints.","tools":["write_plan"],"output_json":{"type":"plan","steps":[{"action":"write_plan","args":{"steps":3}}]}}
