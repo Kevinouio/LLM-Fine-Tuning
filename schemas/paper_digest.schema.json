@@ -8,7 +8,9 @@
     "abstract",
     "contributions",
     "limitations",
-    "summary_simple"
+    "summary_simple",
+    "quality_summary",
+    "quality_flags"
   ],
   "properties": {
     "paper_type": {
@@ -26,6 +28,11 @@
       "items": {"type": "string"}
     },
     "summary_simple": {"type": "string"},
+    "quality_summary": {"type": "string"},
+    "quality_flags": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
     "methods": {
       "type": "array",
       "items": {"type": "string"}

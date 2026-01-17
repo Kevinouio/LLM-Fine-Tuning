@@ -1,4 +1,4 @@
 {"id":"paper_001","input_text":"Title: Example Paper
 Abstract: This paper studies a toy problem.
 Methods: We run a small experiment.
-Results: Accuracy improves.","output_json":{"paper_type":"empirical","title":"Example Paper","abstract":"This paper studies a toy problem.","contributions":["We propose a simple baseline."],"limitations":["Small sample size."],"summary_simple":"This paper tests a small idea and sees a small improvement.","methods":["Experiment"],"datasets":["Synthetic"],"results":["Accuracy improves."]}}
+Results: Accuracy improves.","output_json":{"quality_summary":"Small-scale study with limited evidence; useful as a baseline but not definitive.","quality_flags":["Small sample size","Limited evaluation scope"],"paper_type":"empirical","title":"Example Paper","abstract":"This paper studies a toy problem.","contributions":["We propose a simple baseline."],"limitations":["Small sample size."],"summary_simple":"This paper tests a small idea and sees a small improvement.","methods":["Experiment"],"datasets":["Synthetic"],"results":["Accuracy improves."]}}

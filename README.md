@@ -1,11 +1,11 @@
 # LLM-Fine-Tuning
 This will be my own experimentation in Fine-Tuning LLM models, more specifically the Gemma model for now. Feel Free to use the code if you plan to Fine tune your own personal model!
 
-A local, reproducible repo for fine-tuning **Gemma 2B** (LoRA/QLoRA) on targeted behaviors and evaluating results.
+A local, reproducible repo for fine-tuning **Gemma 3 4B** (LoRA/QLoRA) on targeted behaviors and evaluating results.
 
 This repo contains **two projects**:
 
-1. **Research Paper Parsing** — Paper text → structured JSON digest + high-level simplified explanation.
+1. **Research Paper Parsing** — Paper text → quality check + structured JSON digest + high-level simplified explanation.
 2. **Clarification-First Planner** — Goal + state → either a structured plan *or* a clarifying question when required info is missing.
 
 > Primary goal: learn end-to-end fine-tuning workflows (data → train → eval → serve)
@@ -15,7 +15,7 @@ This repo contains **two projects**:
 ## Features
 
 * ✅ Local training + inference (WSL/Linux)
-* ✅ LoRA/QLoRA fine-tuning for Gemma 2B
+* ✅ LoRA/QLoRA fine-tuning for Gemma 3 4B
 * ✅ Deterministic evaluation for structured outputs (schema validation, grounding checks, execution checks where applicable)
 * ✅ Simple API server for model inference
 * ✅ Optional JavaScript frontend for interactive use
@@ -119,12 +119,12 @@ Each line contains:
 
 * `id`: unique example id
 * `input_text`: paper text or sectioned text
-* `output_json`: the structured digest JSON (must validate against `schemas/paper_digest.schema.json`)
+* `output_json`: the structured digest JSON (must validate against `schemas/paper_digest.schema.json`) including `quality_summary` and `quality_flags`
 
 Example:
 
 ```json
-{"id":"paper_001","input_text":"...paper text...","output_json":{"paper_type":"theoretical","title":"...",...}}
+{"id":"paper_001","input_text":"...paper text...","output_json":{"quality_summary":"...","quality_flags":["..."],"paper_type":"theoretical","title":"...",...}}
 ```
 
 ### Clarification-First Planner (planner/*.jsonl)
@@ -235,3 +235,4 @@ Typical features:
 
 * Ensure you comply with the model license and any dataset licenses you use.
 * This repo is for **learning and research**. Avoid using or sharing tooling intended for harmful misuse.
+

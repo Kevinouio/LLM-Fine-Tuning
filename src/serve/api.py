@@ -51,7 +51,7 @@ def _env(name: str, default: Optional[str]) -> Optional[str]:
 
 app = create_app(
     project=_env("PROJECT", "paper_parser"),
-    model_name=_env("MODEL_NAME", "google/gemma-2b"),
+    model_name=_env("MODEL_NAME", "google/gemma-3-4b"),
     adapter_path=_env("ADAPTER_PATH", None),
 )
 
@@ -59,7 +59,7 @@ app = create_app(
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run API server.")
     parser.add_argument("--project", default="paper_parser")
-    parser.add_argument("--model_name", default="google/gemma-2b")
+    parser.add_argument("--model_name", default="google/gemma-3-4b")
     parser.add_argument("--adapter_path", default=None)
     parser.add_argument("--host", default="0.0.0.0")
     parser.add_argument("--port", type=int, default=8000)
@@ -71,3 +71,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
