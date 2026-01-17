@@ -1,0 +1,25 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Model outputs and logs
+results/
+*.pt
+*.bin
+*.safetensors
+*.log
+
+# Data artifacts
+data/**/raw/
+data/**/processed/
+pdfs/
+manifest.jsonl
+failures.jsonl
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

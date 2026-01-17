@@ -12,3 +12,4 @@ uvicorn
 pydantic
 jsonschema
 numpy
+requests
