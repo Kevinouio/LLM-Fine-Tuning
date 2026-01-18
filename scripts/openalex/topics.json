@@ -1,0 +1,10 @@
+[
+  {"name": "Math", "field": "Mathematics", "n_low": 50, "n_high": 150},
+  {"name": "CSE", "field": "Computer science", "n_low": 50, "n_high": 150},
+  {"name": "Physics", "field": "Physics and astronomy", "n_low": 25, "n_high": 75},
+  {"name": "Biology", "field": "Biology", "n_low": 25, "n_high": 75},
+  {"name": "Chemistry", "field": "Chemistry", "n_low": 25, "n_high": 75},
+  {"name": "Engineering", "field": "Engineering", "n_low": 25, "n_high": 75},
+  {"name": "Psychology", "field": "Psychology", "n_low": 25, "n_high": 75},
+  {"name": "Finance", "field": "Economics, econometrics and finance", "n_low": 25, "n_high": 75}
+]

@@ -10,6 +10,7 @@ import requests
 
 
 OPENALEX_URL = "https://api.openalex.org/works"
+OPENALEX_FIELDS_URL = "https://api.openalex.org/fields"
 OVERSAMPLE_FACTOR = 10
 MAX_SAMPLE_SIZE = 10000
 
@@ -52,6 +53,8 @@ def _request_with_retry(
             wait = base_backoff * (2 ** (attempt - 1))
             time.sleep(wait)
             continue
+        if response.status_code == 400:
+            raise ValueError(f"Bad request: {response.url} -> {response.text}")
         if response.status_code in {429, 500, 502, 503, 504}:
             attempt += 1
             if attempt > max_retries:
@@ -126,6 +129,46 @@ def _fetch_openalex_batch(
     )
     payload = response.json()
     return payload.get("results", []), payload.get("meta", {})
+
+
+def _resolve_field_id(
+    field_name: str,
+    mailto: Optional[str],
+    timeout: int,
+    max_retries: int,
+    base_backoff: float,
+    sleep_api: float,
+    counters: Counters,
+) -> Optional[str]:
+    params: Dict[str, object] = {
+        "search": field_name,
+        "per-page": 10,
+        "select": "id,display_name",
+    }
+    if mailto:
+        params["mailto"] = mailto
+    response = _request_with_retry(
+        OPENALEX_FIELDS_URL,
+        params=params,
+        timeout=timeout,
+        max_retries=max_retries,
+        base_backoff=base_backoff,
+        sleep_api=sleep_api,
+        counters=counters,
+    )
+    results = response.json().get("results", [])
+    if not results:
+        return None
+    target = field_name.strip().lower()
+    for field in results:
+        name = str(field.get("display_name", "")).strip().lower()
+        if name == target:
+            return field.get("id")
+    return results[0].get("id")
+
+
+def _field_id_token(field_id: str) -> str:
+    return field_id.rsplit("/", 1)[-1]
 
 
 def _extract_metadata(work: dict) -> dict:
@@ -316,8 +359,25 @@ def main() -> None:
     parser.add_argument("--out", default="manifest.jsonl")
     parser.add_argument("--pdf_dir", default="pdfs")
     parser.add_argument("--mailto", default=None)
+    parser.add_argument("--field", default=None, help="OpenAlex field display name.")
+    parser.add_argument(
+        "--field_filter",
+        default=None,
+        help="Optional full OpenAlex filter to use for the field (overrides --field).",
+    )
     parser.add_argument("--sleep_api", type=float, default=0.2)
     parser.add_argument("--sleep_pdf", type=float, default=0.5)
+    parser.add_argument(
+        "--topic_scope",
+        choices=("primary", "any"),
+        default="primary",
+        help="Use primary_topic.field.id or topics.field.id for filtering.",
+    )
+    parser.add_argument(
+        "--require_oa",
+        action="store_true",
+        help="Require open_access.is_oa:true to improve PDF hit rate.",
+    )
     parser.add_argument("--max_attempts", type=int, default=10, help="0 means unlimited attempts.")
     parser.add_argument("--per_page", type=int, default=200)
     parser.add_argument("--timeout", type=int, default=60)
@@ -341,8 +401,51 @@ def main() -> None:
 
     seen_ids: set[str] = set()
 
+    topic_filter = None
+    if args.field_filter:
+        topic_filter = args.field_filter
+    elif args.field:
+        field_id = _resolve_field_id(
+            args.field,
+            mailto=args.mailto,
+            timeout=args.timeout,
+            max_retries=args.max_retries,
+            base_backoff=args.base_backoff,
+            sleep_api=args.sleep_api,
+            counters=counters,
+        )
+        if not field_id:
+            print(f"Skipping field (could not resolve id): {args.field}")
+            print(json.dumps(
+                {
+                    "metadata_saved": 0,
+                    "pdfs_downloaded": 0,
+                    "missing_pdf_url": 0,
+                    "failed_downloads": 0,
+                    "rate_limit_waits": counters.rate_limit_waits,
+                    "duplicates_skipped": 0,
+                },
+                indent=2,
+            ))
+            return
+        field_token = _field_id_token(field_id)
+        if args.topic_scope == "any":
+            topic_filter = f"topics.field.id:{field_token}"
+        else:
+            topic_filter = f"primary_topic.field.id:{field_token}"
+        print(f"Resolved field '{args.field}' -> {field_id} (token {field_token})")
+
+    low_filter = "cited_by_count:>0,cited_by_count:<50"
+    high_filter = "cited_by_count:>49"
+    if args.require_oa:
+        low_filter = f"open_access.is_oa:true,{low_filter}"
+        high_filter = f"open_access.is_oa:true,{high_filter}"
+    if topic_filter:
+        low_filter = f"{topic_filter},{low_filter}"
+        high_filter = f"{topic_filter},{high_filter}"
+
     _sample_and_download_bucket(
-        filter_text="cited_by_count:>0,cited_by_count:<50",
+        filter_text=low_filter,
         target_count=args.n_low,
         seed=args.seed,
         per_page=args.per_page,
@@ -362,7 +465,7 @@ def main() -> None:
     )
 
     _sample_and_download_bucket(
-        filter_text="cited_by_count:>49",
+        filter_text=high_filter,
         target_count=args.n_high,
         seed=args.seed,
         per_page=args.per_page,
