@@ -1,14 +1,14 @@
 # Research Paper Parser - Design
 
 ## Goal
-Turn research paper text into a structured JSON digest, plus a quality summary and flags.
+Turn research paper text into a structured JSON digest, plus a quality summary, rubric scores, and flags.
 
 ## Inputs
 - input_text: raw paper text or sectioned text.
 - id: unique identifier.
 
 ## Outputs
-- output_json that validates against schemas/paper_digest.schema.json, including quality_summary and quality_flags.
+- output_json that validates against schemas/paper_digest.schema.json, including quality_summary, quality_scores, and quality_flags.
 
 ## Data pipeline
 1. Place raw text in data/paper_parser/raw/.

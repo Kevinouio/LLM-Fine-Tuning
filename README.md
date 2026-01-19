@@ -119,12 +119,12 @@ Each line contains:
 
 * `id`: unique example id
 * `input_text`: paper text or sectioned text
-* `output_json`: the structured digest JSON (must validate against `schemas/paper_digest.schema.json`) including `quality_summary` and `quality_flags`
+* `output_json`: the structured digest JSON (must validate against `schemas/paper_digest.schema.json`) including `quality_summary`, `quality_scores`, and `quality_flags`
 
 Example:
 
 ```json
-{"id":"paper_001","input_text":"...paper text...","output_json":{"quality_summary":"...","quality_flags":["..."],"paper_type":"theoretical","title":"...",...}}
+{"id":"paper_001","input_text":"...paper text...","output_json":{"quality_summary":"...","quality_scores":{"clarity":3,"problem_understanding":3,"novelty":3,"method_validity":3,"evidence_strength":3,"evaluation_quality":3,"limitations":3,"impact":3},"quality_flags":["..."],"paper_type":"theoretical","title":"...",...}}
 ```
 
 ### Clarification-First Planner (planner/*.jsonl)

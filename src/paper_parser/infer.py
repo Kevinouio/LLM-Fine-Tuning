@@ -30,6 +30,16 @@ def generate_stub_output(input_text: str) -> Dict[str, Any]:
     abstract = _extract_abstract(input_text)
     return {
         "quality_summary": "TODO: assess quality",
+        "quality_scores": {
+            "clarity": 3,
+            "problem_understanding": 3,
+            "novelty": 3,
+            "method_validity": 3,
+            "evidence_strength": 3,
+            "evaluation_quality": 3,
+            "limitations": 3,
+            "impact": 3,
+        },
         "quality_flags": ["TODO: list potential issues"],
         "paper_type": "other",
         "title": title,
