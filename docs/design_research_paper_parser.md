@@ -8,7 +8,7 @@ Turn research paper text into a structured JSON digest, plus a quality summary, 
 - id: unique identifier.
 
 ## Outputs
-- output_json that validates against schemas/paper_digest.schema.json, including quality_summary, quality_scores, and quality_flags.
+- output_json that validates against schemas/paper_digest.schema.json, including quality_summary, quality_scores (1-10), and quality_flags.
 
 ## Data pipeline
 1. Place raw text in data/paper_parser/raw/.

@@ -8,13 +8,8 @@ SYSTEM_PROMPT = (
 
 def build_prompt(input_text: str) -> str:
     return (
-        f"{SYSTEM_PROMPT}
-
-"
-        "INPUT:
-"
-        f"{input_text}
-
-"
+        f"{SYSTEM_PROMPT}\n\n"
+        "INPUT:\n"
+        f"{input_text}\n\n"
         "OUTPUT JSON:"
     )

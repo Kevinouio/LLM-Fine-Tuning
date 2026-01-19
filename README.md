@@ -119,7 +119,7 @@ Each line contains:
 
 * `id`: unique example id
 * `input_text`: paper text or sectioned text
-* `output_json`: the structured digest JSON (must validate against `schemas/paper_digest.schema.json`) including `quality_summary`, `quality_scores`, and `quality_flags`
+* `output_json`: the structured digest JSON (must validate against `schemas/paper_digest.schema.json`) including `quality_summary`, `quality_scores` (1-10), and `quality_flags`
 
 Example:
 
@@ -178,6 +178,24 @@ Run:
 ```bash
 bash scripts/eval_paper_parser.sh
 ```
+
+---
+
+## Auto-labeling (Silver Labels)
+
+Generate silver labels from OpenAlex PDFs using the strict schema prompt.
+
+```bash
+python scripts/compile_papers.py --input_root data/openalex --output_path data/paper_parser/processed/compiled_papers.jsonl
+python scripts/sectionize_papers.py --input_jsonl data/paper_parser/processed/compiled_papers.jsonl --output_path data/paper_parser/processed/sectioned_papers.jsonl
+python scripts/auto_label.py --input_jsonl data/paper_parser/processed/sectioned_papers.jsonl --use_sections --output_path data/paper_parser/processed/auto_labeled.jsonl --failures_path data/paper_parser/processed/auto_label_failures.jsonl --max_papers 10 --log_every 1
+```
+
+Notes:
+* Default model: `google/gemma-3-4b-it`
+* Default `--max_new_tokens` is 4096; adjust if you hit OOM.
+* Use `--print_json` to inspect raw model outputs for debugging.
+* Use `--use_sections` to prefer the sectioned input.
 
 ### Clarification-First Planner
 

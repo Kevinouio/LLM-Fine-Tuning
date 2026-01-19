@@ -7,10 +7,43 @@ import torch
 
 
 def extract_json(text: str) -> Dict[str, Any]:
+    if "```" in text:
+        for fence in ("```json", "```"):
+            start = text.find(fence)
+            if start == -1:
+                continue
+            start = text.find("\n", start)
+            if start == -1:
+                continue
+            end = text.find("```", start)
+            if end == -1:
+                continue
+            snippet = text[start:end].strip()
+            try:
+                return json.loads(snippet)
+            except json.JSONDecodeError:
+                break
+
     start = text.find("{")
-    end = text.rfind("}")
-    if start == -1 or end == -1 or end <= start:
+    if start == -1:
         return {"raw_text": text}
+
+    depth = 0
+    end = None
+    for idx, char in enumerate(text[start:], start=start):
+        if char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                end = idx
+                break
+
+    if end is None:
+        end = text.rfind("}")
+        if end == -1 or end <= start:
+            return {"raw_text": text}
+
     snippet = text[start : end + 1]
     try:
         return json.loads(snippet)

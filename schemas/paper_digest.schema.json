@@ -43,14 +43,14 @@
         "impact"
       ],
       "properties": {
-        "clarity": {"type": "integer", "minimum": 1, "maximum": 5},
-        "problem_understanding": {"type": "integer", "minimum": 1, "maximum": 5},
-        "novelty": {"type": "integer", "minimum": 1, "maximum": 5},
-        "method_validity": {"type": "integer", "minimum": 1, "maximum": 5},
-        "evidence_strength": {"type": "integer", "minimum": 1, "maximum": 5},
-        "evaluation_quality": {"type": "integer", "minimum": 1, "maximum": 5},
-        "limitations": {"type": "integer", "minimum": 1, "maximum": 5},
-        "impact": {"type": "integer", "minimum": 1, "maximum": 5}
+        "clarity": {"type": "integer", "minimum": 1, "maximum": 10},
+        "problem_understanding": {"type": "integer", "minimum": 1, "maximum": 10},
+        "novelty": {"type": "integer", "minimum": 1, "maximum": 10},
+        "method_validity": {"type": "integer", "minimum": 1, "maximum": 10},
+        "evidence_strength": {"type": "integer", "minimum": 1, "maximum": 10},
+        "evaluation_quality": {"type": "integer", "minimum": 1, "maximum": 10},
+        "limitations": {"type": "integer", "minimum": 1, "maximum": 10},
+        "impact": {"type": "integer", "minimum": 1, "maximum": 10}
       },
       "additionalProperties": false
     },
