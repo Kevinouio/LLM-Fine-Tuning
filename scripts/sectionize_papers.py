@@ -88,8 +88,8 @@ def _split_sections(text: str) -> Dict[str, str]:
         if not seen_heading:
             front_matter.append(line)
 
-        if current == "abstract" and line.lower().startswith("abstract "):
-            line = line[len("abstract") :].strip(": -")
+        if current == "abstract" and line.lower().startswith("abstract"):
+            line = re.sub(r"^abstract[\s:.\-–—]+", "", line, flags=re.IGNORECASE).strip()
 
         sections[current].append(line)
 

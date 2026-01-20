@@ -29,6 +29,15 @@ def write_jsonl(path: Union[str, Path], records: Iterable[Dict[str, Any]]) -> No
             handle.write(json.dumps(record, ensure_ascii=True) + "\n")
 
 
+def append_jsonl(path: Union[str, Path], records: Iterable[Dict[str, Any]]) -> None:
+    path = Path(path)
+    if path.parent:
+        ensure_dir(path.parent)
+    with path.open("a", encoding="utf-8") as handle:
+        for record in records:
+            handle.write(json.dumps(record, ensure_ascii=True) + "\n")
+
+
 def load_json(path: Union[str, Path]) -> Dict[str, Any]:
     return json.loads(Path(path).read_text(encoding="utf-8"))
 

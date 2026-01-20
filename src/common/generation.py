@@ -58,12 +58,15 @@ def generate_json(
     max_new_tokens: int = 256,
     temperature: float = 0.2,
     top_p: float = 0.9,
+    max_input_tokens: int | None = None,
+    truncation: bool = True,
 ) -> Dict[str, Any]:
+    max_length = max_input_tokens or getattr(model.config, "max_position_embeddings", 2048)
     inputs = tokenizer(
         prompt,
         return_tensors="pt",
-        truncation=True,
-        max_length=getattr(model.config, "max_position_embeddings", 2048),
+        truncation=truncation,
+        max_length=max_length,
     )
     inputs = {k: v.to(model.device) for k, v in inputs.items()}
     prompt_len = inputs["input_ids"].shape[-1]
